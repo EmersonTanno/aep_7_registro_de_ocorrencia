@@ -1,11 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { OcorrenciaService } from './ocorrencia.service';
 import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
+import { GetAllOccurrence } from './use-case/get_all_occurrence.use_case';
+import { Response } from 'express';
 
 @Controller('ocorrencia')
 export class OcorrenciaController {
-  constructor(private readonly ocorrenciaService: OcorrenciaService) {}
+  constructor(private readonly ocorrenciaService: OcorrenciaService,
+    private readonly getAllOcurrence: GetAllOccurrence,
+  ) {}
 
   @Post()
   create(@Body() createOcorrenciaDto: CreateOcorrenciaDto) {
@@ -13,8 +17,10 @@ export class OcorrenciaController {
   }
 
   @Get()
-  findAll() {
-    return this.ocorrenciaService.findAll();
+  async findAll(@Res() res: Response) {
+    const result = await this.getAllOcurrence.exec()
+
+    return res.status(result.status).send(result.data)
   }
 
   @Get(':id')
