@@ -4,16 +4,21 @@ import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
 import { GetAllOccurrence } from './use-case/get_all_occurrence.use_case';
 import { Response } from 'express';
+import { Ocorrencia } from './entities/ocorrencia.entity';
+import { CreateOccurrence } from './use-case/create_occurrence.use_case';
 
 @Controller('ocorrencia')
 export class OcorrenciaController {
   constructor(private readonly ocorrenciaService: OcorrenciaService,
     private readonly getAllOcurrence: GetAllOccurrence,
+    private readonly createOccurrence: CreateOccurrence,
   ) {}
 
   @Post()
-  create(@Body() createOcorrenciaDto: CreateOcorrenciaDto) {
-    return this.ocorrenciaService.create(createOcorrenciaDto);
+  async create(@Body() ocorrencia: Ocorrencia, @Res() res: Response) {
+    const result = await this.createOccurrence.exec(ocorrencia);
+
+    return res.sendStatus(result.status);
   }
 
   @Get()
