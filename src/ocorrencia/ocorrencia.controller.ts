@@ -15,7 +15,7 @@ export class OcorrenciaController {
   ) {}
 
   @Post()
-  async create(@Body() ocorrencia: Ocorrencia, @Res() res: Response) {
+  async create(@Body() ocorrencia: CreateOcorrenciaDto, @Res() res: Response) {
     const result = await this.createOccurrence.exec(ocorrencia);
 
     return res.sendStatus(result.status);
