@@ -8,7 +8,11 @@ export class OcorrenciaRepository {
     constructor(
         @InjectModel(Ocorrencia.name) private readonly ocorrenciaModel: Model<Ocorrencia>
     ) {}
-
+    
+    async createOccurrence(ocorrencia: Ocorrencia) {
+        const occurrencie = await this.ocorrenciaModel.create(ocorrencia);
+        return occurrencie;
+    }
 
     async getAllOccurrencies(): Promise<Ocorrencia[]> {
         const occurrencies : Ocorrencia[] = await this.ocorrenciaModel.find();
