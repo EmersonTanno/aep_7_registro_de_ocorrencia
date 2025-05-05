@@ -6,12 +6,14 @@ import { GetAllOccurrence } from './use-case/get_all_occurrence.use_case';
 import { Response } from 'express';
 import { Ocorrencia } from './entities/ocorrencia.entity';
 import { CreateOccurrence } from './use-case/create_occurrence.use_case';
+import { GetOccurrenceById } from './use-case/get_occurrence_by_id.use_case';
 
 @Controller('ocorrencia')
 export class OcorrenciaController {
   constructor(private readonly ocorrenciaService: OcorrenciaService,
     private readonly getAllOcurrence: GetAllOccurrence,
     private readonly createOccurrence: CreateOccurrence,
+    private readonly getOccurrenceById: GetOccurrenceById,
   ) {}
 
   @Post()
@@ -29,8 +31,9 @@ export class OcorrenciaController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ocorrenciaService.findOne(+id);
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.getOccurrenceById.exec(id);
+    return res.status(result.status).send(result.data);
   }
 
   @Patch(':id')
