@@ -7,6 +7,7 @@ import { Ocorrencia, OcorrenciaSchema } from './entities/ocorrencia.entity';
 import { OcorrenciaRepository } from './ocorrencia.repository';
 import { CreateOccurrence } from './use-case/create_occurrence.use_case';
 import { GetOccurrenceById } from './use-case/get_occurrence_by_id.use_case';
+import { DeleteOccurrence } from './use-case/delete_occurrence.use_case';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { GetOccurrenceById } from './use-case/get_occurrence_by_id.use_case';
     CreateOccurrence,
     GetAllOccurrence,
     GetOccurrenceById,
+    DeleteOccurrence,
   ],
 })
 export class OcorrenciaModule {}

@@ -7,6 +7,7 @@ import { Response } from 'express';
 import { Ocorrencia } from './entities/ocorrencia.entity';
 import { CreateOccurrence } from './use-case/create_occurrence.use_case';
 import { GetOccurrenceById } from './use-case/get_occurrence_by_id.use_case';
+import { DeleteOccurrence } from './use-case/delete_occurrence.use_case';
 
 @Controller('ocorrencia')
 export class OcorrenciaController {
@@ -14,6 +15,7 @@ export class OcorrenciaController {
     private readonly getAllOcurrence: GetAllOccurrence,
     private readonly createOccurrence: CreateOccurrence,
     private readonly getOccurrenceById: GetOccurrenceById,
+    private readonly deleteOccurrence: DeleteOccurrence,
   ) {}
 
   @Post()
@@ -42,7 +44,8 @@ export class OcorrenciaController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ocorrenciaService.remove(+id);
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.deleteOccurrence.exec(id);
+    return res.status(result.status).send();
   }
 }
