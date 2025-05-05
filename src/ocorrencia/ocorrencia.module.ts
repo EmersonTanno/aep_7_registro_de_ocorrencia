@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Ocorrencia, OcorrenciaSchema } from './entities/ocorrencia.entity';
 import { OcorrenciaRepository } from './ocorrencia.repository';
 import { CreateOccurrence } from './use-case/create_occurrence.use_case';
+import { GetOccurrenceById } from './use-case/get_occurrence_by_id.use_case';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CreateOccurrence } from './use-case/create_occurrence.use_case';
     OcorrenciaRepository,
     CreateOccurrence,
     GetAllOccurrence,
+    GetOccurrenceById,
   ],
 })
 export class OcorrenciaModule {}
