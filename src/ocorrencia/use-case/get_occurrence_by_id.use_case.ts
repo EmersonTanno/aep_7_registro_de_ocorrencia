@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { OcorrenciaRepository } from "../ocorrencia.repository";
 import { OccurrenceResponseDto } from "../dto/ocorrencia_response.dto";
 
@@ -10,10 +10,14 @@ export class GetOccurrenceById
     ) {}
 
     async exec(id: string): Promise<{ status: number; data: OccurrenceResponseDto | null }> {
-        const occurence = await this.occurrenciRepository.getOccurenceById(id);
+        try {
 
-        if(occurence)
-        {
+            const occurence = await this.occurrenciRepository.getOccurenceById(id);
+
+            if (!occurence) {
+                throw new NotFoundException('Ocorrência não encontrada');
+            }
+
             const response: OccurrenceResponseDto = ({
                 nameOccurrence: occurence.nameOccurrence,
                 namePerson: occurence.namePerson,
@@ -26,11 +30,12 @@ export class GetOccurrenceById
                 status: 200,
                 data: response,
             };
-        }
+        } catch (e) {
+            if(e instanceof NotFoundException){
+                throw e;
+            }
 
-        return {
-            status: 404,
-            data: null,
-        };
+            throw new InternalServerErrorException('Erro ao buscar a ocorrência');
+        }
     }
 }
