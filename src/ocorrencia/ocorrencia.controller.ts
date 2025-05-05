@@ -8,6 +8,7 @@ import { Ocorrencia } from './entities/ocorrencia.entity';
 import { CreateOccurrence } from './use-case/create_occurrence.use_case';
 import { GetOccurrenceById } from './use-case/get_occurrence_by_id.use_case';
 import { DeleteOccurrence } from './use-case/delete_occurrence.use_case';
+import { UpdateOccurrence } from './use-case/update_occurence.use_case';
 
 @Controller('ocorrencia')
 export class OcorrenciaController {
@@ -16,6 +17,7 @@ export class OcorrenciaController {
     private readonly createOccurrence: CreateOccurrence,
     private readonly getOccurrenceById: GetOccurrenceById,
     private readonly deleteOccurrence: DeleteOccurrence,
+    private readonly updateOccurrence: UpdateOccurrence,
   ) {}
 
   @Post()
@@ -39,8 +41,9 @@ export class OcorrenciaController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOcorrenciaDto: UpdateOcorrenciaDto) {
-    return this.ocorrenciaService.update(+id, updateOcorrenciaDto);
+  async update(@Param('id') id: string, @Body() data: UpdateOcorrenciaDto, @Res() res: Response) {
+    const result = await this.updateOccurrence.exec(id, data);
+    return res.status(result.status).send();
   }
 
   @Delete(':id')
