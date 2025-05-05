@@ -19,4 +19,9 @@ export class OcorrenciaRepository {
         const occurrencies : Ocorrencia[] = await this.ocorrenciaModel.find();
         return occurrencies;
     }
+
+    async getOccurenceById(id: string): Promise<Ocorrencia | null>{
+        const ocorrencia = await this.ocorrenciaModel.findById(id);
+        return ocorrencia;
+    }
 }
