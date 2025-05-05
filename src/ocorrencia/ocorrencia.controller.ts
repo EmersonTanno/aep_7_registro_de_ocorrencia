@@ -20,20 +20,20 @@ export class OcorrenciaController {
   async create(@Body() ocorrencia: CreateOcorrenciaDto, @Res() res: Response) {
     const result = await this.createOccurrence.exec(ocorrencia);
 
-    return res.sendStatus(result.status);
+    return res.status(result.status).send();
   }
 
   @Get()
-  async findAll(@Res() res: Response) {
+  async findAll() {
     const result = await this.getAllOcurrence.exec()
 
-    return res.status(result.status).send(result.data)
+    return result.data;
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Res() res: Response) {
+  async findOne(@Param('id') id: string) {
     const result = await this.getOccurrenceById.exec(id);
-    return res.status(result.status).send(result.data);
+    return result.data;
   }
 
   @Patch(':id')
