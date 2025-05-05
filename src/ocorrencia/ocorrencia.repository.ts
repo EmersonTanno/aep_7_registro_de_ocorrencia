@@ -24,4 +24,8 @@ export class OcorrenciaRepository {
         const ocorrencia = await this.ocorrenciaModel.findById(id);
         return ocorrencia;
     }
+
+    async deleteOccurrence(id: string) {
+        return await this.ocorrenciaModel.findByIdAndDelete(id);
+    }
 }
