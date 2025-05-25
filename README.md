@@ -17,10 +17,10 @@ Projeto desenvolvido com NestJS + Mongoose para gerenciar registros de ocorrênc
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/seu-repositorio.git
+git clone https://github.com/EmersonTanno/aep_7_registro_de_ocorrencia.git
 
 # Acesse a pasta do projeto
-cd seu-repositorio
+cd aep_7_registro_de_ocorrencia
 
 # Instale as dependências
 npm install
